@@ -5,62 +5,103 @@
 //  Created by Tatiana Kornilova on 5/9/16.
 //  Copyright © 2016 Tatiana Kornilova. All rights reserved.
 //
+// Идея заимствована https://github.com/m2mtech/calculator-2016
 
 import Foundation
 
 class CalculatorBrain{
-
+    
     private var accumulator = 0.0
-
+    var result: Double{
+        get{
+            return accumulator
+        }
+    }
+    
+    private var currentPrecedence = Int.max
+    private var descriptionAccumulator = "0" {
+        didSet {
+            if pending == nil {
+                currentPrecedence = Int.max
+            }
+        }
+    }
+    var description: String {
+        get {
+            if pending == nil {
+                return descriptionAccumulator
+            } else {
+                return pending!.descriptionFunction(pending!.descriptionOperand,
+                                                    pending!.descriptionOperand != descriptionAccumulator ? descriptionAccumulator : "")
+            }
+        }
+    }
+    
+    var isPartialResult: Bool {
+        get {
+            return pending != nil
+        }
+    }
+    
+    
     func setOperand(operand: Double) {
         accumulator = operand
+        descriptionAccumulator = String(format: "%g", accumulator)
     }
-
+    
     private var operations : [String: Operation] = [
-        "rand": Operation.NullaryOperation(drand48),
+        "rand": Operation.NullaryOperation(drand48, "rand()"),
         "π": Operation.Constant(M_PI),
         "e": Operation.Constant(M_E),
-        "±": Operation.UnaryOperation({ -$0 }),
-        "√": Operation.UnaryOperation(sqrt),
-        "cos": Operation.UnaryOperation(cos),
-        "sin": Operation.UnaryOperation(sin),
-        "tan" : Operation.UnaryOperation(tan),
-        "sin⁻¹" : Operation.UnaryOperation(asin),
-        "cos⁻¹" : Operation.UnaryOperation(acos),
-        "tan⁻¹" : Operation.UnaryOperation(atan),
-        "ln" : Operation.UnaryOperation(log),
-        "x⁻¹" : Operation.UnaryOperation({1.0/$0}),
-        "х²" : Operation.UnaryOperation({$0 * $0}),
-        "×": Operation.BinaryOperation({$0 * $1}),
-        "÷": Operation.BinaryOperation({$0 / $1}),
-        "+": Operation.BinaryOperation({$0 + $1}),
-        "−": Operation.BinaryOperation({$0 - $1}),
-        "xʸ" : Operation.BinaryOperation({pow($0, $1)}),
+        "±": Operation.UnaryOperation({ -$0 }, { "-(" + $0 + ")"}),
+        "√": Operation.UnaryOperation(sqrt, { "√(" + $0 + ")"}),
+        "cos": Operation.UnaryOperation(cos,{ "cos(" + $0 + ")"}),
+        "sin": Operation.UnaryOperation(sin,{ "sin(" + $0 + ")"}),
+        "tan": Operation.UnaryOperation(tan,{ "tan(" + $0 + ")"}),
+        "sin⁻¹" : Operation.UnaryOperation(asin, { "sin⁻¹(" + $0 + ")"}),
+        "cos⁻¹" : Operation.UnaryOperation(acos, { "cos⁻¹(" + $0 + ")"}),
+        "tan⁻¹" : Operation.UnaryOperation(atan, { "tan⁻¹(" + $0 + ")"}),
+        "ln" : Operation.UnaryOperation(log, { "ln(" + $0 + ")"}),
+        "x⁻¹" : Operation.UnaryOperation({1.0/$0}, {"(" + $0 + ")⁻¹"}),
+        "х²" : Operation.UnaryOperation({$0 * $0}, { "(" + $0 + ")²"}),
+        "×": Operation.BinaryOperation(*, { $0 + " × " + $1 }, 1),
+        "÷": Operation.BinaryOperation(/, { $0 + " ÷ " + $1 }, 1),
+        "+": Operation.BinaryOperation(+, { $0 + " + " + $1 }, 0),
+        "−": Operation.BinaryOperation(-, { $0 + " - " + $1 }, 0),
+        "xʸ" : Operation.BinaryOperation(pow, { $0 + " ^ " + $1 }, 2),
         "=": Operation.Equals,
         "C" : Operation.C
     ]
-
+    
     private enum Operation{
-        case NullaryOperation(() -> Double)
+        case NullaryOperation(() -> Double,String)
         case Constant(Double)
-        case UnaryOperation((Double) -> Double)
-        case BinaryOperation((Double, Double) -> Double)
+        case UnaryOperation((Double) -> Double,(String) -> String)
+        case BinaryOperation((Double, Double) -> Double, (String, String) -> String, Int)
         case Equals
         case C
     }
-
+    
     func performOperation(symbol: String){
         if let operation = operations[symbol]{
             switch operation {
-            case .NullaryOperation(let function):
+            case .NullaryOperation(let function, let descriptionValue):
                 accumulator = function()
+                descriptionAccumulator = descriptionValue
             case .Constant(let value):
                 accumulator = value
-            case .UnaryOperation(let function):
+                descriptionAccumulator = symbol
+            case .UnaryOperation(let function, let descriptionFunction):
                 accumulator = function(accumulator)
-            case .BinaryOperation(let function):
+                descriptionAccumulator = descriptionFunction(descriptionAccumulator)
+            case .BinaryOperation(let function, let descriptionFunction, let precedence):
                 executeBinaryOperation()
-                pending = PendingBinaryOperationInfo(binaryOperation: function, firstOperand: accumulator)
+                if currentPrecedence < precedence {
+                    descriptionAccumulator = "(" + descriptionAccumulator + ")"
+                }
+                currentPrecedence = precedence
+                pending = PendingBinaryOperationInfo(binaryOperation: function, firstOperand: accumulator,
+                                                     descriptionFunction: descriptionFunction, descriptionOperand: descriptionAccumulator)
             case .Equals:
                 executeBinaryOperation()
             case .C:
@@ -68,10 +109,12 @@ class CalculatorBrain{
             }
         }
     }
-
+    
     private func executeBinaryOperation(){
+        
         if pending != nil{
             accumulator = pending!.binaryOperation(pending!.firstOperand, accumulator)
+            descriptionAccumulator = pending!.descriptionFunction(pending!.descriptionOperand, descriptionAccumulator)
             pending = nil
         }
     }
@@ -79,19 +122,17 @@ class CalculatorBrain{
     private func clear() {
         accumulator = 0.0
         pending = nil
+        descriptionAccumulator = " "
+        currentPrecedence = Int.max
     }
     
-
     private var pending: PendingBinaryOperationInfo?
-
+    
     private struct PendingBinaryOperationInfo {
         var binaryOperation: (Double, Double) ->Double
         var firstOperand: Double
+        var descriptionFunction: (String, String) -> String
+        var descriptionOperand: String
     }
-
-    var result: Double{
-        get{
-            return accumulator
-        }
-    }
+    
 }
