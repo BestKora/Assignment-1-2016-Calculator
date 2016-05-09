@@ -46,7 +46,7 @@ class CalculatorBrain{
     
     func setOperand(operand: Double) {
         accumulator = operand
-        descriptionAccumulator = String(format: "%g", accumulator)
+        descriptionAccumulator = formatter.stringFromNumber(accumulator) ?? ""
     }
     
     private var operations : [String: Operation] = [
@@ -134,5 +134,23 @@ class CalculatorBrain{
         var descriptionFunction: (String, String) -> String
         var descriptionOperand: String
     }
-    
 }
+
+class CalculatorFormatter: NSNumberFormatter {
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override init() {
+        super.init()
+        self.locale = NSLocale.currentLocale()
+        self.numberStyle = .DecimalStyle
+        self.maximumFractionDigits = 6
+        self.notANumberSymbol = "Error"
+        self.groupingSeparator = " "
+        
+    }
+}
+
+let formatter = CalculatorFormatter()

@@ -35,14 +35,15 @@ class ViewController: UIViewController {
     
     private var displayValue: Double? {
         get {
-            if let text = display.text, value = Double(text) {
+            if let text = display.text,
+                value = formatter.numberFromString(text)?.doubleValue {
                 return value
             }
             return nil
         }
         set {
             if let value = newValue {
-                display.text = String(value)
+                display.text = formatter.stringFromNumber(value)
                 history.text = brain.description + (brain.isPartialResult ? " …" : " =")
             } else {
                 display.text = " "
