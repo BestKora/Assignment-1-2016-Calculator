@@ -18,11 +18,14 @@ class ViewController: UIViewController {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTyping {
             let textCurrentlyInDisplay = display.text!
-            
+            //----- Уничтожаем лидирующие нули -----------------
+            if (digit == "0") && ((display.text == "0") || (display.text == "-0")){ return }
+            if (digit !=  ".") && ((display.text == "0") || (display.text == "-0"))
+            { display.text = digit ; return }
+            //--------------------------------------------------
+
             if (digit != ".") || (textCurrentlyInDisplay.rangeOfString(".") == nil) {
-                
                 display.text = textCurrentlyInDisplay + digit
-                
             }
         } else {
             display.text = digit
@@ -30,20 +33,33 @@ class ViewController: UIViewController {
         userIsInTheMiddleOfTyping = true
     }
     
-    private var displayValue : Double{
-        get{
-            return Double(display.text!)!
+    private var displayValue: Double? {
+        get {
+            if let text = display.text, value = Double(text) {
+                return value
+            }
+            return nil
         }
-        set{
-            display.text = String(newValue)
+        set {
+            if let value = newValue {
+                display.text = String(value)
+                history.text = brain.description + (brain.isPartialResult ? " …" : " =")
+            } else {
+                display.text = " "
+                history.text = " "
+                userIsInTheMiddleOfTyping = false
+            }
         }
     }
+
     
     private var brain = CalculatorBrain()
     
     @IBAction private func performOperation(sender: UIButton) {
         if userIsInTheMiddleOfTyping {
-            brain.setOperand(displayValue)
+            if let value = displayValue{
+                brain.setOperand(value)
+            }
             userIsInTheMiddleOfTyping = false
         }
         if let mathematicalSymbol = sender.currentTitle{
@@ -51,14 +67,29 @@ class ViewController: UIViewController {
         }
         displayValue = brain.result
         
-        history.text = brain.description
-        if history.text == " " {return}
-        if brain.isPartialResult {
-            history.text! += "..."
-        } else {
-            history.text! += " ="
-        }
     }
     
+    @IBAction func backspace(sender: UIButton) {
+        if userIsInTheMiddleOfTyping  {
+            display.text!.removeAtIndex(display.text!.endIndex.predecessor())
+        }
+        if display.text!.isEmpty {
+            userIsInTheMiddleOfTyping  = false
+            displayValue = brain.result
+        }
+    }
+    @IBAction func plusMinus(sender: UIButton) {
+        if userIsInTheMiddleOfTyping  {
+            if (display.text!.rangeOfString("-") != nil) {
+                display.text = String((display.text!).characters.dropFirst())
+            } else {
+                display.text = "-" + display.text!
+            }
+        } else {
+            performOperation(sender)
+        }
+    }
+
+
 }
 

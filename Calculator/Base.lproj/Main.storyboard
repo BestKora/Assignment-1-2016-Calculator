@@ -59,6 +59,9 @@
                                                         <state key="normal" title="←">
                                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="backspace:" destination="iIH-kL-9YY" eventType="touchUpInside" id="Qjl-PB-X8Z"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nwc-mB-spM">
                                                         <rect key="frame" x="228" y="0.0" width="104" height="58"/>
@@ -147,7 +150,7 @@
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="iIH-kL-9YY" eventType="touchUpInside" id="4iS-AQ-tLa"/>
+                                                            <action selector="plusMinus:" destination="iIH-kL-9YY" eventType="touchUpInside" id="YWa-lm-ZUS"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -472,7 +475,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="siP-E9-tho" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="334" y="157"/>
+            <point key="canvasLocation" x="311" y="92"/>
         </scene>
     </scenes>
 </document>
