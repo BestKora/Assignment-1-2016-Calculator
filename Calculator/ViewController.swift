@@ -11,8 +11,14 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var history: UILabel!
     @IBOutlet private weak var display: UILabel!
+    @IBOutlet weak var tochka: UIButton!{
+        didSet {
+            tochka.setTitle(decimalSeparator, forState: UIControlState.Normal)
+        }
+    }
     
     private var userIsInTheMiddleOfTyping = false
+    let decimalSeparator = formatter.decimalSeparator ?? "."
     
     @IBAction private func touchDigit(sender: UIButton) {
         let digit = sender.currentTitle!
@@ -20,11 +26,11 @@ class ViewController: UIViewController {
             let textCurrentlyInDisplay = display.text!
             //----- Уничтожаем лидирующие нули -----------------
             if (digit == "0") && ((display.text == "0") || (display.text == "-0")){ return }
-            if (digit !=  ".") && ((display.text == "0") || (display.text == "-0"))
+            if (digit !=  decimalSeparator) && ((display.text == "0") || (display.text == "-0"))
             { display.text = digit ; return }
             //--------------------------------------------------
 
-            if (digit != ".") || (textCurrentlyInDisplay.rangeOfString(".") == nil) {
+            if (digit != decimalSeparator) || (textCurrentlyInDisplay.rangeOfString(decimalSeparator) == nil) {
                 display.text = textCurrentlyInDisplay + digit
             }
         } else {

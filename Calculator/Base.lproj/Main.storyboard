@@ -424,7 +424,7 @@
                                                         <rect key="frame" x="228" y="0.0" width="104" height="58"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                                                        <state key="normal" title=".">
+                                                        <state key="normal" title=".PO">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
@@ -471,11 +471,12 @@
                     <connections>
                         <outlet property="display" destination="QKj-St-VYd" id="wce-Ds-VXb"/>
                         <outlet property="history" destination="u24-rQ-GU4" id="9SB-wq-Whv"/>
+                        <outlet property="tochka" destination="L0h-R4-s4M" id="BP4-DT-47R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="siP-E9-tho" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="311" y="92"/>
+            <point key="canvasLocation" x="-58" y="84"/>
         </scene>
     </scenes>
 </document>
