@@ -469,14 +469,26 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cos_1" destination="0op-jF-V5N" id="tTi-UT-oI4"/>
                         <outlet property="display" destination="QKj-St-VYd" id="wce-Ds-VXb"/>
                         <outlet property="history" destination="u24-rQ-GU4" id="9SB-wq-Whv"/>
+                        <outlet property="plusMinusButton" destination="j1l-ZW-mSh" id="Bm9-IN-MbP"/>
+                        <outlet property="sin_1" destination="xv6-nY-fb5" id="4Zd-LU-5Ho"/>
+                        <outlet property="stack0" destination="cWh-Ai-WMr" id="1tQ-n9-ckB"/>
+                        <outlet property="stack1" destination="0T3-ay-Ig0" id="pYx-YV-Wqh"/>
+                        <outlet property="stack2" destination="gie-ht-Uyi" id="pVP-dh-Gyy"/>
+                        <outlet property="stack3" destination="jku-nK-BXw" id="fwf-xv-5Td"/>
+                        <outlet property="stack4" destination="ZT9-bp-BKO" id="KrX-jm-4qL"/>
+                        <outlet property="stack5" destination="VOA-Di-okF" id="YlY-V0-h7T"/>
+                        <outlet property="stack6" destination="xrb-8I-ih5" id="5Ok-QG-EK1"/>
+                        <outlet property="tan_1" destination="RJ1-wr-b4T" id="q6d-ds-VjW"/>
                         <outlet property="tochka" destination="L0h-R4-s4M" id="BP4-DT-47R"/>
+                        <outlet property="x_2" destination="aSM-86-oo6" id="bKj-nZ-Xro"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="siP-E9-tho" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-58" y="84"/>
+            <point key="canvasLocation" x="84" y="101"/>
         </scene>
     </scenes>
 </document>
