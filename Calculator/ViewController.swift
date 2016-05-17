@@ -128,11 +128,33 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func setM(sender: UIButton) {
-        
+    // Код для тестирования "programs"
+/*
+    @IBAction private func save() {
+        savedProgram = brain.program
     }
+    
+    @IBAction private func restore() {
+        if savedProgram != nil {
+            brain.program = savedProgram!
+            displayValue = brain.result
+        }
+    }
+ */
+    
+    // Код для тестирования "programs"
+    
+    private var savedProgram: CalculatorBrain.PropertyList?
+    
+    @IBAction func setM(sender: UIButton) {
+        savedProgram = brain.program
+    }
+    
     @IBAction func pushM(sender: UIButton) {
-        
+        if savedProgram != nil {
+            brain.program = savedProgram!
+            displayValue = brain.result
+        }
     }
     
     override func willTransitionToTraitCollection(newCollection: UITraitCollection,
