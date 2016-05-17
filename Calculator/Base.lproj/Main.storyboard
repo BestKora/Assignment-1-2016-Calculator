@@ -49,7 +49,7 @@
                                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="iIH-kL-9YY" eventType="touchUpInside" id="Jaj-47-l8m"/>
+                                                            <action selector="clearAll:" destination="iIH-kL-9YY" eventType="touchUpInside" id="eFi-gN-xqP"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="beM-m4-8AT">
@@ -71,7 +71,7 @@
                                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="iIH-kL-9YY" eventType="touchUpInside" id="AbU-Kv-1JI"/>
+                                                            <action selector="setM:" destination="iIH-kL-9YY" eventType="touchUpInside" id="vYH-sb-2vn"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gsp-Iw-abR">
@@ -81,6 +81,9 @@
                                                         <state key="normal" title="M">
                                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="pushM:" destination="iIH-kL-9YY" eventType="touchUpInside" id="gA7-uk-oyg"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t1g-Rp-xQr">
                                                         <rect key="frame" x="456" y="0.0" width="104" height="58"/>

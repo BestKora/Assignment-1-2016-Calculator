@@ -5,7 +5,7 @@
 //  Created by Tatiana Kornilova on 5/9/16.
 //  Copyright © 2016 Tatiana Kornilova. All rights reserved.
 //
-// Идея заимствована https://github.com/m2mtech/calculator-2016
+// Идея description заимствована https://github.com/m2mtech/calculator-2016
 
 import Foundation
 
@@ -69,8 +69,8 @@ class CalculatorBrain{
         "+": Operation.BinaryOperation(+, { $0 + " + " + $1 }, 0),
         "−": Operation.BinaryOperation(-, { $0 + " - " + $1 }, 0),
         "xʸ" : Operation.BinaryOperation(pow, { $0 + " ^ " + $1 }, 2),
-        "=": Operation.Equals,
-        "C" : Operation.C
+        "=": Operation.Equals
+        
     ]
     
     private enum Operation{
@@ -79,7 +79,7 @@ class CalculatorBrain{
         case UnaryOperation((Double) -> Double,(String) -> String)
         case BinaryOperation((Double, Double) -> Double, (String, String) -> String, Int)
         case Equals
-        case C
+        
     }
     
     func performOperation(symbol: String){
@@ -104,8 +104,7 @@ class CalculatorBrain{
                                                      descriptionFunction: descriptionFunction, descriptionOperand: descriptionAccumulator)
             case .Equals:
                 executeBinaryOperation()
-            case .C:
-                clear()
+            
             }
         }
     }
@@ -119,7 +118,7 @@ class CalculatorBrain{
         }
     }
     
-    private func clear() {
+   func clear() {
         accumulator = 0.0
         pending = nil
         descriptionAccumulator = " "

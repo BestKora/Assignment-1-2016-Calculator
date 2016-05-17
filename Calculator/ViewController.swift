@@ -79,7 +79,7 @@ class ViewController: UIViewController {
                 display.text = formatter.stringFromNumber(value)
                 history.text = brain.description + (brain.isPartialResult ? " …" : " =")
             } else {
-                display.text = " "
+                display.text = "0"
                 history.text = " "
                 userIsInTheMiddleOfTyping = false
             }
@@ -103,6 +103,10 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func clearAll(sender: UIButton) {
+        brain.clear()
+        displayValue = nil
+    }
     @IBAction func backspace(sender: UIButton) {
         if userIsInTheMiddleOfTyping  {
             display.text!.removeAtIndex(display.text!.endIndex.predecessor())
@@ -123,6 +127,14 @@ class ViewController: UIViewController {
             performOperation(sender)
         }
     }
+    
+    @IBAction func setM(sender: UIButton) {
+        
+    }
+    @IBAction func pushM(sender: UIButton) {
+        
+    }
+    
     override func willTransitionToTraitCollection(newCollection: UITraitCollection,
                      withTransitionCoordinator coordinator:UIViewControllerTransitionCoordinator) {
         
