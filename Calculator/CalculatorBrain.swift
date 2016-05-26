@@ -56,7 +56,7 @@ class CalculatorBrain{
         "rand": Operation.NullaryOperation(drand48, "rand()"),
         "π": Operation.Constant(M_PI),
         "e": Operation.Constant(M_E),
-        "±": Operation.UnaryOperation({ -$0 }, { "-(" + $0 + ")"}),
+        "±": Operation.UnaryOperation({ -$0 }, { "±(" + $0 + ")"}),
         "√": Operation.UnaryOperation(sqrt, { "√(" + $0 + ")"}),
         "cos": Operation.UnaryOperation(cos,{ "cos(" + $0 + ")"}),
         "sin": Operation.UnaryOperation(sin,{ "sin(" + $0 + ")"}),
@@ -159,21 +159,13 @@ class CalculatorBrain{
     }
 }
 
-class CalculatorFormatter: NSNumberFormatter {
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    override init() {
-        super.init()
-        self.locale = NSLocale.currentLocale()
-        self.numberStyle = .DecimalStyle
-        self.maximumFractionDigits = 6
-        self.notANumberSymbol = "Error"
-        self.groupingSeparator = " "
-        
-    }
-}
+let formatter:NSNumberFormatter = {
+    let formatter = NSNumberFormatter()
+    formatter.numberStyle = .DecimalStyle
+    formatter.maximumFractionDigits = 6
+    formatter.notANumberSymbol = "Error"
+    formatter.groupingSeparator = " "
+    formatter.locale = NSLocale.currentLocale()
+    return formatter
 
-let formatter = CalculatorFormatter()
+} ()

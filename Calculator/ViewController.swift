@@ -34,6 +34,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var x_2: UIButton!
     @IBOutlet weak var plusMinusButton: UIButton!
     
+    @IBOutlet weak var rand: UIButton!
+    
     private lazy var buttonBlank:UIButton = {
         let button = UIButton(frame: CGRectMake(100, 400, 100, 50))
         button.backgroundColor = UIColor.blackColor()
@@ -43,6 +45,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    //    rand?.titleLabel?.minimumScaleFactor = 0.5
+        rand?.titleLabel?.adjustsFontSizeToFitWidth = true
         configureView(traitCollection.verticalSizeClass, buttonBlank: buttonBlank)
         
     }
