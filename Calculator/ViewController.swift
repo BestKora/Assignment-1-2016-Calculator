@@ -43,14 +43,7 @@ class ViewController: UIViewController {
         return button
     }()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    //    rand?.titleLabel?.minimumScaleFactor = 0.5
-        rand?.titleLabel?.adjustsFontSizeToFitWidth = true
-        configureView(traitCollection.verticalSizeClass, buttonBlank: buttonBlank)
-        
-    }
-    
+       
     @IBAction private func touchDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTyping {
